@@ -10,13 +10,13 @@ def generate_construction_graph(bins, items):
     items {int} -- number of items with weight in the problem space
 
   Returns:
-    d {dictionary} -- construction graph of problem space
+    {dictionary} -- construction graph of problem space
   '''
 
   d = {}
   for i in range(items):
     d.update({i: [random.uniform(0,1) for _ in range(bins)]})
-  return(d)
+  return d
 
 def generate_item_weights(bins, items):
   if bins == 50:

@@ -1,27 +1,36 @@
+import timeit
 import init
 import ant
 
 def bin_packing(number_bins, number_items, evaporation_rate, ants):
   # initialise bins, items weights and evaluations
   item_weights = init.generate_item_weights(number_bins, number_items)
-  current_bin_weight = dict.fromkeys(range(0, number_bins), 0) # all bins start empty
-  fitness_evaluations = 10000
+  fitness_evaluations = 5
 
-  # start ant optimisation
+  problem_graph = init.generate_construction_graph(number_bins, number_items)
   
-  print(current_bin_weight)
+  i = 0
+  while i < fitness_evaluations:
+    print('new run:', i)
+    ant_optimisation(ants, item_weights, number_bins, problem_graph, evaporation_rate)
+    i += 1
 
-def ant_optimisation(ants, number_bins, item_weights, bins):
+def ant_optimisation(ants, items, bins, problem_graph, evaporation_rate):
   '''[summary]
   
   Arguments:
-    number_bins {[type]} -- [description]
-    number_items {[type]} -- [description]
-    bins {[type]} -- [description]
+    ants {int} -- number of ants being used in each iteration
+    items {list} -- weight of each item
+    bins {list} -- list of current bins weight
+    problem_graph {dictionary} -- construction graph of problem space
   '''
+  ant_paths = ant.generate_ant_paths(ants, items, problem_graph)
+  for path in ant_paths:
+    fitness_of_path = [ant.evaluate_fitness(path, items, bins)]
+    problem_graph = ant.update_pheromone_fitness(path, fitness_of_path, problem_graph)
+    problem_graph = ant.evaporate_pheromone(problem_graph, evaporation_rate)
+    # print(problem_graph)
 
-  graph_of_pheromones = init.generate_construction_graph(number_bins, number_items)
-  print('test')
 
 if __name__ == '__main__':
-  bin_packing(10, 200)
+  bin_packing(3, 6, 0.9, 10)
