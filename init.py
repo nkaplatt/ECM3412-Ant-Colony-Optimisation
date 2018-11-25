@@ -20,7 +20,7 @@ def generate_construction_graph(bins, items):
 
 def generate_item_weights(bins, items):
   if bins == 50:
-    weights = [(i*random.randrange(1, 201))/2 for i in range(items)] # BBP2
+    weights = [((i+1)*random.randrange(1, 201))/2 for i in range(items)] # BBP2
   else:
     weights = [random.randrange(1, 201) for _ in range(items)] # BBP1
   return weights
