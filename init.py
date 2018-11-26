@@ -12,7 +12,7 @@ def generate_construction_graph(bins, items):
   Returns:
     {dictionary} -- construction graph of problem space
   '''
-
+  random.seed() # change random selection of numbers for each new construction graph
   d = {}
   for i in range(items):
     d.update({i: [random.uniform(0,1) for _ in range(bins)]})

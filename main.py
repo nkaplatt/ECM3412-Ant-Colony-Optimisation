@@ -1,11 +1,10 @@
-import timeit
+import time
 import sys
 import init
 import ant
 
 def bin_packing(number_bins, number_items, evaporation_rate, ants, item_weights):
   # initialise bins, items weights and evaluations
-  # item_weights = init.generate_item_weights(number_bins, number_items)
   fitness_evaluations = 10000
   problem_graph = init.generate_construction_graph(number_bins, number_items)
   best_fitness, best_bin_config = 0, [0]*number_bins
@@ -42,16 +41,18 @@ def ant_optimisation(ants, items, bins, problem_graph, evaporation_rate, best_fi
 
 
 if __name__ == '__main__':
-  result_files = ['p10-e0.4-bpp2.txt', 'p10-e0.9-bpp2.txt', 'p100-e0.4-bpp2.txt', 'p100-e0.9-bpp2.txt']
+  result_files = ['p10-e0.4-bpp1.txt', 'p10-e0.9-bpp1.txt', 'p100-e0.4-bpp1.txt', 'p100-e0.9-bpp1.txt']
   evaporation_rate = [0.4, 0.9, 0.4, 0.9]
   ants = [10, 10, 100, 100]
-  item_weights = init.generate_item_weights(50, 200)
+  item_weights = init.generate_item_weights(10, 200)
     
   for index, x in enumerate(result_files):
-    f = open('results/{}'.format(result_files[index]),"a")
+    f = open('results/run_two/{}'.format(result_files[index]),"a")
     f.write('Item weights: {}.\n'.format(item_weights))
     
     for i in range(5):
-      result, bin_config = bin_packing(50, 200, evaporation_rate[index], ants[index], item_weights)
-      f.write('Resulting configuration: {}. With fitness {}.\n'.format(bin_config, result))
-    print('Resulting configuration: {}. With fitness {}.'.format(bin_config, result))
+      start_time = time.time()
+      result, bin_config = bin_packing(10, 200, evaporation_rate[index], ants[index], item_weights)
+      end_time = time.time()
+      f.write('Resulting configuration: {}. \nWith fitness {}.\nIn {} seconds.'.format(bin_config, result, (end_time - start_time)))
+    print('Resulting configuration: {}. \nWith fitness {}.\nIn {} seconds.'.format(bin_config, result, (end_time - start_time)))
