@@ -56,6 +56,4 @@ def evaluate_fitness(path, items, bins):
   bins = [0]*bins # list of bins with weight initialised at 0
   for path_choice, item in zip(path, items): # iterate through items and add to chosen bin
     bins[path_choice] += item
-  if (max(bins) - min(bins)) == 0: # dividing by 0 causes error, catch
-    return 100/ 0.0000000001
-  return 100/ (max(bins) - min(bins)), bins
+  return (max(bins) - min(bins)), bins
