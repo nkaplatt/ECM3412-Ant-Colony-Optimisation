@@ -19,7 +19,16 @@ def generate_construction_graph(bins, items):
   return d
 
 def generate_item_weights(bins, items):
-  if bins == 50:
+  '''Initialise the items for the experiment
+  
+  Arguments:
+    bins {int} -- number of ants being used in each iteration
+    items {int} -- number of items used in experiment
+  
+  Returns:
+    {list} -- list of items with an associated weight
+  '''
+    if bins == 50:
     weights = [((i+1)*random.randrange(1, 201))/2 for i in range(items)] # BBP2
   else:
     weights = [random.randrange(1, 201) for _ in range(items)] # BBP1

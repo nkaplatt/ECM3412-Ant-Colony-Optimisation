@@ -1,9 +1,23 @@
 import time
-import sys
 import init
 import ant
 
 def bin_packing(number_bins, number_items, evaporation_rate, ants, item_weights):
+  '''Function takes list of items and spreads it between
+  a number of bins.
+  
+  Arguments:
+    number_bins {int} -- how many bins the items are spread between
+    number_items {int} -- how many items to be placed into bins
+    evaporation_rate {float} -- percentage of pheromone removed after each iteration
+    ants {int} -- number of ants used in each iteration
+    item_weights {list} -- list of items with an associated weight
+  
+  Returns:
+    {int} -- optimal fitness achieved in experiment
+    {list} -- list of bin weights that gave optimal result
+  '''
+
   # initialise bins, items weights and evaluations
   fitness_evaluations = 10000
   problem_graph = init.generate_construction_graph(number_bins, number_items)
@@ -24,13 +38,18 @@ def bin_packing(number_bins, number_items, evaporation_rate, ants, item_weights)
   return best_fitness, best_bin_config
 
 def ant_optimisation(ants, items, bins, problem_graph, evaporation_rate, best_fitness, best_bin_config):
-  '''[summary]
+  '''Function 
   
   Arguments:
     ants {int} -- number of ants being used in each iteration
     items {list} -- weight of each item
     bins {list} -- list of current bins weight
     problem_graph {dictionary} -- construction graph of problem space
+
+  Returns:
+    {int} -- optimal fitness achieved in experiment
+    {dictionary} -- list of bin weights that gave optimal result
+    {list} -- list of bin weights that gave optimal result
   '''
   ant_paths = ant.generate_ant_paths(ants, items, problem_graph)
 
@@ -54,14 +73,15 @@ if __name__ == '__main__':
   result_files = ['p10-e0.4-bpp1.txt', 'p10-e0.9-bpp1.txt', 'p100-e0.4-bpp1.txt', 'p100-e0.9-bpp1.txt']
   evaporation_rate = [0.4, 0.9, 0.4, 0.9]
   ants = [10, 10, 100, 100]
-  item_weights = init.generate_item_weights(10, 200)
+  bins = 10
+  item_weights = init.generate_item_weights(bins, 200)
     
   for index, x in enumerate(result_files):
-    f = open('results/run_three/{}'.format(result_files[index]),"a")
+    f = open('results/extra_tests/{}'.format(result_files[index]),"a")
     f.write('Item weights: {}.\n'.format(item_weights))
     
     for i in range(5):
       start_time = time.time()
-      result, bin_config = bin_packing(10, 200, evaporation_rate[index], ants[index], item_weights)
+      result, bin_config = bin_packing(bins, 200, evaporation_rate[index], ants[index], item_weights)
       end_time = time.time()
       f.write('Resulting configuration: {}. \nWith fitness {} between heaviest and lightest bins. --- In {} seconds ---\n'.format(bin_config, result, (end_time - start_time)))

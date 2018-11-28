@@ -1,6 +1,17 @@
 import random
 
 def generate_ant_paths(number_of_ants, items, graph):
+  '''[summary]
+  
+  Arguments:
+    number_of_ants {int} -- [description]
+    items {list} -- [description]
+    graph {dictionary} -- [description]
+  
+  Returns:
+    [type] -- [description]
+  '''
+
   paths = []
   for ant in range(number_of_ants):
     paths.append([choose_bin(index, graph) for index, item in enumerate(items)])
@@ -14,7 +25,7 @@ def choose_bin(item_number, graph):
     graph {[type]} -- [description]
   
   Returns:
-    [type] -- [description]
+    {int} -- [description]
   '''
   total_pheromone = sum(graph.get(item_number))
   weights = [(path_pheromone / total_pheromone) for path_pheromone in graph.get(item_number)]
@@ -38,6 +49,17 @@ def evaporate_pheromone(graph, e_rate):
   return graph
 
 def update_pheromone_fitness(path, fitness_of_path, problem_graph):
+  '''[summary]
+  
+  Arguments:
+    path {[type]} -- [description]
+    fitness_of_path {[type]} -- [description]
+    problem_graph {[type]} -- [description]
+  
+  Returns:
+    [type] -- [description]
+  '''
+
   for index, choice in enumerate(path):
     problem_graph.get(index)[choice] += fitness_of_path # doing *= converges all pheromones to 0 and errors out
   return problem_graph
